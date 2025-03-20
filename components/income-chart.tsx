@@ -1,35 +1,85 @@
 "use client";
 
-import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { PieChart, Pie, Cell, Tooltip, PieLabelRenderProps } from "recharts";
 
 const IncomePieChart = () => {
-  const data = {
-    labels: ["1-smena", "2-smena"],
-    datasets: [
-      {
-        data: [7000, 3000], // Daromad va xarajat summalari
-        backgroundColor: ["#4CAF50", "#FF5722"], // Yashil - daromad, qizil - xarajat
-        hoverBackgroundColor: ["#45A049", "#E64A19"],
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom" as const,
-      },
+  const data = [
+    {
+      name: "1 - smena",
+      value: 7000,
+      color: "#4CAF50", // Green
     },
+    {
+      name: "2 - smena",
+      value: 3000,
+      color: "#FF5722", // Red
+    },
+  ];
+  const renderCenterText = ({ cx, cy }: PieLabelRenderProps) => {
+    const centerX = cx ?? 0; // Agar cx undefined bo‘lsa, 0 qiymatini oladi
+    const centerY = cy ?? 0;
+
+    return (
+      <>
+        <text
+          x={centerX}
+          y={Number(centerY) - 10}
+          textAnchor="middle"
+          fontSize="14"
+          fill="#888"
+        >
+          Kirimlar
+        </text>
+        <text
+          x={centerX}
+          y={Number(centerY) + 15}
+          textAnchor="middle"
+          fontSize="20"
+          fontWeight="bold"
+        >
+          {data
+            ?.reduce((total, entry) => total + entry.value, 0)
+            .toLocaleString()}{" "}
+        </text>
+      </>
+    );
   };
 
   return (
-    <div className="w-72 h-72">
-      <h2 className="text-[20px] font-bold">Kirimlar</h2>
-      <Pie data={data} options={options} />
+    <div className="flex flex-col items-center">
+      <PieChart width={300} height={300}>
+        <Pie
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={80} // Avval 60 edi
+          outerRadius={110} // Avval 80 edi
+          dataKey="value"
+          stroke="white"
+          strokeWidth={4}
+          cornerRadius={8}
+          label={renderCenterText}
+          labelLine={false}
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.color} />
+          ))}
+        </Pie>
+
+        <Tooltip />
+      </PieChart>
+      <div className="flex gap-3">
+        {data?.map((item, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <div
+              className="w-4 h-4 rounded-full"
+              style={{ backgroundColor: item.color }}
+            >
+            </div>
+              <span>{item.name}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -4,23 +4,36 @@ import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
 interface IncomeExpenseCardProps {
   title: string;
   value: number;
-  type: "income" | "expense";
-  variant: "smena-one" | "smena-two";
+  type: string;
+  variant: string;
+  order_count: number;
 }
 
-const IncomeExpenseCard = ({ title, value, type, variant }: IncomeExpenseCardProps) => {
+const IncomeExpenseCard = ({
+  title,
+  value,
+  type,
+  variant,
+  order_count,
+}: IncomeExpenseCardProps) => {
   return (
     <Card
-    className="w-full"
+      className="w-full"
       sx={{
         backgroundColor: type === "income" ? "#E8F5E9" : "#FFEBEE",
         borderLeft: `5px solid ${type === "income" ? "#4CAF50" : "#F44336"}`,
       }}
     >
       <CardHeader
-    sx={{padding: 1}}
+        sx={{ padding: 1 }}
         title={
-          <Typography variant="h6" sx={{ fontSize: 14, color: type === "income" ? "#388E3C" : "#D32F2F" }}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: 14,
+              color: type === "income" ? "#388E3C" : "#D32F2F",
+            }}
+          >
             {title}
           </Typography>
         }
@@ -36,9 +49,14 @@ const IncomeExpenseCard = ({ title, value, type, variant }: IncomeExpenseCardPro
         <Typography variant="h6" fontSize={14} fontWeight="bold">
           {variant === "smena-one" ? "1-smena" : "2-smena"}
         </Typography>
-        <Typography variant="h6" fontSize={15} fontWeight="bold">
-          {value.toLocaleString()} UZS
-        </Typography>
+        <div className="w-full flex flex-col justify-between">
+          <Typography variant="h6" fontSize={15} fontWeight="bold">
+            {value.toLocaleString()} UZS
+          </Typography>
+          <Typography variant="h6" fontSize={12} fontWeight="bold">
+            Buyurtmalar soni: {order_count} ta
+          </Typography>
+        </div>
       </div>
     </Card>
   );
