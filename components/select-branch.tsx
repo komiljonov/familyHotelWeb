@@ -4,7 +4,7 @@ import { ArrowDropDown } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 
 export default function SelectBranchs({
   selectedValues,
@@ -18,12 +18,29 @@ export default function SelectBranchs({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const { data: filials } = useQuery<IFilial[]>({
-    queryKey: ["filials"],
-    queryFn: fetchFilials,
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5,
-  });
+  // const { data: filials } = useQuery<IFilial[]>({
+  //   queryKey: ["filials"],
+  //   queryFn: fetchFilials,
+  //   refetchOnWindowFocus: false,
+  //   staleTime: 1000 * 60 * 5,
+  // });
+
+  const filials = useMemo(()=> {
+    return [
+      {
+        name: "filial 1",
+        id: "1"
+      },
+      {
+        name: "filial 2",
+        id: "2"
+      },
+      {
+        name: "filial 3",
+        id: "3"
+      },
+    ]
+  },[])
 
   // Convert API response to options array
   const options =
