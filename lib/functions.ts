@@ -1,5 +1,5 @@
-import { format } from "date-fns/format";
-import { uz } from "date-fns/locale/uz";
+import { format } from "date-fns";
+import { uz } from "date-fns/locale";
 
 const uzbekMonths = [
   "Yanvar",
