@@ -9,7 +9,7 @@ const employees = [
 
 export default function EmployeesData() {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-3 w-full">
       {employees.map((employee, index) => (
         <EmployeeCard key={index} {...employee} />
       ))}

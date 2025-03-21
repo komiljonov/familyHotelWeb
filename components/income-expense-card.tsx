@@ -20,18 +20,19 @@ const IncomeExpenseCard = ({
     <Card
       className="w-full"
       sx={{
-        backgroundColor: type === "income" ? "#E8F5E9" : "#FFEBEE",
-        borderLeft: `5px solid ${type === "income" ? "#4CAF50" : "#F44336"}`,
+        backgroundColor: type === "income" ? "#DAFEEF" : "#FEE6E2",
+        boxShadow: "none",
+        borderRadius: "8px",
       }}
     >
       <CardHeader
-        sx={{ padding: 1 }}
+        sx={{ padding: "12px" }}
         title={
           <Typography
             variant="h6"
             sx={{
               fontSize: 14,
-              color: type === "income" ? "#388E3C" : "#D32F2F",
+              color: type === "income" ? "#1ACD81" : "#EF5C44",
             }}
           >
             {title}
@@ -39,22 +40,19 @@ const IncomeExpenseCard = ({
         }
         action={
           type === "income" ? (
-            <ArrowUpward sx={{ color: "#388E3C" }} />
+            <ArrowUpward sx={{ color: "#1ACD81" }} className="rotate-[-135deg]" />
           ) : (
-            <ArrowDownward sx={{ color: "#D32F2F" }} />
+            <ArrowDownward sx={{ color: "#EF5C44" }} className="rotate-[-135deg]" />
           )
         }
       />
-      <div className="px-3">
-        <Typography variant="h6" fontSize={14} fontWeight="bold">
-          {variant === "smena-one" ? "1-smena" : "2-smena"}
-        </Typography>
-        <div className="w-full flex flex-col justify-between">
-          <Typography variant="h6" fontSize={15} fontWeight="bold">
+      <div className="px-3 pb-3">
+        <div className="w-full flex gap-2 flex-col justify-between">
+          <Typography variant="h6" color={type === "income" ? "#1ACD81" : "#EF5C44"} fontSize={15} fontWeight="bold">
             {value.toLocaleString()} UZS
           </Typography>
-          <Typography variant="h6" fontSize={12} fontWeight="bold">
-            Buyurtmalar soni: {order_count} ta
+          <Typography variant="h6" fontSize={12} fontWeight="bold" className="flex justify-between w-full">
+            <span>Buyurtmalar:</span> <span>{order_count} ta</span>
           </Typography>
         </div>
       </div>

@@ -1,8 +1,5 @@
-import fetchFilials from "@/lib/fetchers";
-import { IFilial } from "@/lib/types/branch.types";
-import { ArrowDropDown } from "@mui/icons-material";
+import { KeyboardArrowDown } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 
@@ -99,11 +96,11 @@ export default function SelectBranchs({
     <div className="relative flex justify-center w-full sm:max-w-[450px]" ref={selectRef}>
       <button
         ref={buttonRef}
-        className="w-full p-2 px-4 text-sm flex items-center justify-between border rounded-md bg-white"
+        className="w-full p-2 px-4 text-sm flex items-center justify-between border rounded-xl   bg-[#DAE8FF]"
         onClick={() => setIsOpen((prev) => !prev)} // Toggle dropdown
       >
         {displaySelectedValues}
-        <ArrowDropDown className="text-gray-500" />
+        <KeyboardArrowDown className="text-gray-500" />
       </button>
 
       <AnimatePresence>

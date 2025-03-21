@@ -3,18 +3,19 @@
 import { PieChart, Pie, Cell, Tooltip, PieLabelRenderProps } from "recharts";
 
 const IncomePieChart = () => {
+
   const data = [
     {
-      name: "1 - smena",
-      value: 7000,
-      color: "#4CAF50", // Green
+      name: "Kirim",
+      value: 17000,
+      color: "#1ACD81", // Green
     },
     {
-      name: "2 - smena",
-      value: 3000,
-      color: "#FF5722", // Red
-    },
-  ];
+      name: "Chiqim",
+      value: 23000,
+      color: "#EF5C44", // Red
+    }
+  ]
   const renderCenterText = ({ cx, cy }: PieLabelRenderProps) => {
     const centerX = cx ?? 0; // Agar cx undefined bo‘lsa, 0 qiymatini oladi
     const centerY = cy ?? 0;
@@ -28,7 +29,7 @@ const IncomePieChart = () => {
           fontSize="14"
           fill="#888"
         >
-          Kirimlar
+          Aylanma
         </text>
         <text
           x={centerX}
@@ -37,9 +38,7 @@ const IncomePieChart = () => {
           fontSize="20"
           fontWeight="bold"
         >
-          {data
-            ?.reduce((total, entry) => total + entry.value, 0)
-            .toLocaleString()}{" "}
+          {data?.reduce((total, entry) => total + entry.value, 0).toLocaleString()} 
         </text>
       </>
     );
@@ -47,17 +46,17 @@ const IncomePieChart = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <PieChart width={300} height={300}>
+      <PieChart width={240} height={240}>
         <Pie
           data={data}
           cx="50%"
           cy="50%"
-          innerRadius={80} // Avval 60 edi
+          innerRadius={70} // Avval 60 edi
           outerRadius={110} // Avval 80 edi
           dataKey="value"
           stroke="white"
-          strokeWidth={4}
-          cornerRadius={8}
+          strokeWidth={6}
+          cornerRadius={10}
           label={renderCenterText}
           labelLine={false}
         >

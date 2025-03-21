@@ -6,14 +6,14 @@ const ExpensePieChart = () => {
 
   const data = [
     {
-      name: "1 - smena",
+      name: "Kirim",
       value: 17000,
-      color: "blue", // Green
+      color: "#1ACD81", // Green
     },
     {
-      name: "2 - smena",
+      name: "Chiqim",
       value: 23000,
-      color: "red", // Red
+      color: "#EF5C44", // Red
     }
   ]
   const renderCenterText = ({ cx, cy }: PieLabelRenderProps) => {
@@ -29,7 +29,7 @@ const ExpensePieChart = () => {
           fontSize="14"
           fill="#888"
         >
-          Chiqimlar
+          Aylanma
         </text>
         <text
           x={centerX}
@@ -46,12 +46,12 @@ const ExpensePieChart = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <PieChart width={300} height={300}>
+      <PieChart width={240} height={240}>
         <Pie
           data={data}
           cx="50%"
           cy="50%"
-          innerRadius={80} // Avval 60 edi
+          innerRadius={70} // Avval 60 edi
           outerRadius={110} // Avval 80 edi
           dataKey="value"
           stroke="white"

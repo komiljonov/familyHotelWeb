@@ -10,31 +10,34 @@ interface EmployeeCardProps {
 
 const EmployeeCard = ({ name, income, smena, expense }: EmployeeCardProps) => {
   return (
-    <Card className="w-full " sx={{ p: 2, backgroundColor: "#FAFAFA", borderLeft: "5px solid #3F51B5" }}>
+    <Card
+      className="w-full "
+      sx={{ p: "12px", backgroundColor: "#F7F7F7", boxShadow: "none" }}
+    >
       <div className="w-full">
         {/* First Line: Name & Income */}
         <div className="flex justify-between w-full gap-3">
-          <Typography variant="h6" fontWeight="bold">
+          <Typography variant="h6" fontSize={14} fontWeight="semibold">
             {name}
           </Typography>
-          <Box display="flex" alignItems="center" gap={1}>
-            <ArrowUpward sx={{ color: "#388E3C" }} />
-            <Typography variant="body1" sx={{ color: "#388E3C" }}>
-              {income.toLocaleString()} UZS
-            </Typography>
-          </Box>
+          <Typography variant="body2" fontSize={12} fontWeight={400} color="#A3A3A3">
+            {smena}
+          </Typography>
         </div>
 
         <Divider sx={{ my: 1 }} />
 
         {/* Second Line: Smena & Expense */}
         <div className="flex justify-between w-full gap-3">
-          <Typography variant="body2" color="text.secondary">
-            {smena}
-          </Typography>
           <Box display="flex" alignItems="center" gap={1}>
-            <ArrowDownward sx={{ color: "#D32F2F" }} />
-            <Typography variant="body1" sx={{ color: "#D32F2F" }}>
+            <ArrowUpward sx={{ color: "#1ACD81", fontSize: 20 }} className="rotate-[-135deg]"/>
+            <Typography variant="body1" fontSize={12} sx={{ color: "#1ACD81" }}>
+              {income.toLocaleString()} UZS
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" gap={1}>
+            <ArrowDownward sx={{ color: "#EF5C44", fontSize: 20 }} className="rotate-[-135deg]"/>
+            <Typography variant="body1" sx={{ color: "#EF5C44", fontSize: 12 }}>
               {expense.toLocaleString()} UZS
             </Typography>
           </Box>
