@@ -47,7 +47,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col items-center gap-6 px-4 py-4">
+    <div className="w-full sm:hidden flex flex-col items-center gap-6 px-4 py-4">
       <div className="mx-auto flex justify-between gap-3 items-center w-full max-w-[450px]">
         {dates?.start_date && dates?.end_date ? (
           <h2 className="text-md font-bold text-center ">
