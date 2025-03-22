@@ -99,7 +99,10 @@ const Home = () => {
           transition={{ duration: 0.3 }}
           className="w-full flex flex-col items-center gap-4"
         >
+          <div className="min-h-[264px]">
           <IncomeExpenseChart stats={stats as IStats} />
+
+          </div>
           <IncomeExpenseData stats={stats as IStats} />
           <div className="flex flex-col items-center gap-6 w-full">
             <h3 className="text-xl font-bold self-start">Xodimlar</h3>

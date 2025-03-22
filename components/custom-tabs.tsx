@@ -13,7 +13,7 @@ export default function ShiftTabs({ tabs, setActiveTab, activeTab }: Props) {
 
    
   return (
-    <div className="relative w-full flex space-x-2 p-1 bg-gray-200 rounded-lg">
+    <div className="relative w-full flex h-[48px] space-x-2 p-1 bg-gray-200 rounded-lg">
       {tabs.map((tab) => (
         <div
           key={tab?.id}

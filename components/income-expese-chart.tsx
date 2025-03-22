@@ -54,7 +54,7 @@ const IncomeExpenseChart = ({ stats}: { stats: IStats}) => {
  
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center min-h-[264px]">
       <PieChart width={240} height={240}>
         <Pie
           data={chartData}
