@@ -92,13 +92,12 @@ const Home = () => {
         >
           <IncomeExpenseChart type={tab} />
           <IncomeExpenseData variant={tab} />
+          <div className="flex flex-col items-center gap-6 w-full">
+            <h3 className="text-xl font-bold self-start">Xodimlar</h3>
+            <EmployeesData variant={tab} />
+          </div>
         </motion.div>
       </AnimatePresence>
-
-      <div className="flex flex-col items-center gap-6 w-full">
-        <h3 className="text-xl font-bold self-start">Xodimlar</h3>
-        <EmployeesData variant={tab} />
-      </div>
     </div>
   );
 };
