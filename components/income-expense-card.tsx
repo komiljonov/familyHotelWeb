@@ -49,7 +49,7 @@ const IncomeExpenseCard = ({
       <div className="px-3 pb-3">
         <div className="w-full flex gap-2 flex-col justify-between">
           <Typography variant="h6" color={type === "income" ? "#1ACD81" : "#EF5C44"} fontSize={15} fontWeight="bold">
-            {value.toLocaleString()} UZS
+            {value?.toLocaleString()} UZS
           </Typography>
           <Typography variant="h6" fontSize={12} fontWeight="bold" className="flex justify-between w-full">
             <span>Buyurtmalar:</span> <span>{order_count} ta</span>

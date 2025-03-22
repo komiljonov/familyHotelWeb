@@ -1,49 +1,27 @@
 "use client";
 
+import { IStats } from "@/lib/types/stats.types";
 import { PieChart, Pie, Cell, Tooltip, PieLabelRenderProps } from "recharts";
 
-const IncomeExpenseChart = ({type}: {type: string}) => {
+const IncomeExpenseChart = ({ stats}: { stats: IStats}) => {
 
-  const data = [
+  const item = stats?.totals
+  const chartData = [
     {
       name: "Kirim",
-      value: 17000,
+      value: item?.income_amount,
       color: "#1ACD81", // Green
       type: "smena-one",
     },
     {
       name: "Chiqim",
-      value: 13000,
+      value: item?.expense_amount,
       color: "#EF5C44", // Red
       type: "smena-one",
     },
-    {
-      name: "Kirim",
-      value: 17000,
-      color: "#1ACD81", // Green
-      type: "smena-two",
-    },
-    {
-      name: "Chiqim",
-      value:15000,
-      color: "#EF5C44", // Red
-      type: "smena-two",
-    },
+  
   ]
-  const chartData = type
-  ? data.filter((item) => item.type === type)
-  : [
-      {
-        name: "Kirim",
-        value: data.filter((item) => item.name === "Kirim").reduce((acc, curr) => acc + curr.value, 0),
-        color: "#1ACD81",
-      },
-      {
-        name: "Chiqim",
-        value: data.filter((item) => item.name === "Chiqim").reduce((acc, curr) => acc + curr.value, 0),
-        color: "#EF5C44",
-      },
-    ];
+ 
 
   const renderCenterText = ({ cx, cy }: PieLabelRenderProps) => {
     const centerX = cx ?? 0; // Agar cx undefined bo‘lsa, 0 qiymatini oladi
@@ -67,7 +45,7 @@ const IncomeExpenseChart = ({type}: {type: string}) => {
           fontSize="20"
           fontWeight="bold"
         >
-          {chartData?.reduce((total, entry) => total + entry.value, 0).toLocaleString()} 
+          {item?.total?.toLocaleString()} 
         </text>
       </>
     );

@@ -1,4 +1,4 @@
-export interface IBranch {
+export interface ITurns {
     id: string;
     name: string;
-  }
+}
