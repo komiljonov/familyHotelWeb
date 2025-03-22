@@ -34,7 +34,7 @@ export default function ShiftTabs({ tabs, setActiveTab, activeTab }: Props) {
             <motion.div
               layoutId="tab-indicator"
               className="absolute inset-0 bg-white rounded-lg shadow"
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              transition={{ type: "spring", stiffness: 500, damping: 40 }}
             />
           )}
           <span className="relative z-10">{tab?.label}</span>
