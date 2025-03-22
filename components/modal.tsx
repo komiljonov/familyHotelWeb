@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Close } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 
 const AnimModal = ({
@@ -53,12 +54,12 @@ const AnimModal = ({
               className="absolute w-full max-w-md p-6 bg-white rounded-lg shadow-lg "
             >
               {/* Close Button */}
-              <button
+              <IconButton
                 onClick={() => setOpen(false)}
-                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+                sx={{ position: "absolute", top: 3, right: 3 }}
               >
                 <Close className="w-5 h-5" />
-              </button>
+              </IconButton>
               {content}
             </motion.div>
           </div>

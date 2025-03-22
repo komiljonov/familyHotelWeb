@@ -111,29 +111,40 @@ export default function SelectBranchs({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-[45px] w-full bg-white shadow-lg rounded-lg overflow-hidden z-50 p-2 border"
+            className="absolute top-[45px] w-full shadow-lg rounded-lg overflow-hidden  bg-[#F7F7F7] z-50 p-3 border"
           >
-            <div className="flex flex-col w-full">
-              {options.map((option) => (
-                <label
-                  key={option.value}
-                  className="flex items-center px-3 w-full cursor-pointer rounded-md py-2 hover:bg-gray-100"
-                  htmlFor={option.value}
-                >
-                  <Checkbox
-                    id={option.value}
-                    checked={selectedValues.includes(option.value)}
-                    onChange={() => handleChange(option.value)}
-                    className="mr-2"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      backgroundColor: selectedValues.includes(option.value) ? "#4D7CFF" : "",
-                      borderColor: selectedValues.includes(option.value) ? "#4D7CFF" : "",
-                    }}
-                  />
-                  {option.label}
-                </label>
+            <div className="flex flex-col w-full gap-1">
+              {options.map((option, index) => (
+              <label
+              key={option.value}
+              className={`${index === options.length - 1 ? "border-0" : "border-b"} flex items-center gap-3  w-full cursor-pointer py-2 hover:bg-gray-100`}
+              htmlFor={option.value}
+              onClick={() => handleChange(option.value)}  // ✅ Move onChange to onClick
+            >
+              <div
+                className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${
+                  selectedValues.includes(option.value)
+                    ? "bg-blue-500 border-blue-500"
+                    : "border-gray-300"
+                }`}
+              >
+                {selectedValues.includes(option.value) && (
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                )}
+              </div>
+              {option.label}
+            </label>
+            
+            
               ))}
             </div>
           </motion.div>

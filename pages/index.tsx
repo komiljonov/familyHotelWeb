@@ -11,13 +11,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 
 // Komponentlarni dinamik import qilish
-const IncomePieChart = dynamic(() => import("@/components/income-chart"), {
-  ssr: false, // Faqat clientda yuklanadi
-});
-
-const ExpensePieChart = dynamic(() => import("@/components/expense-chart"), {
-  ssr: false, // Faqat clientda yuklanadi
-});
+const IncomeExpenseChart = dynamic(
+  () => import("@/components/income-expese-chart"),
+  {
+    ssr: false, // Faqat clientda yuklanadi
+  }
+);
 
 const Home = () => {
   const [branchs, setBranchs] = useState<string[]>([]);
@@ -34,32 +33,15 @@ const Home = () => {
 
   const tabs = [
     {
+      label: "Jami",
+      value: "",
+    },
+    {
       label: "1 - smena",
       value: "smena-one",
     },
     {
       label: "2 - smena",
-      value: "smena-two",
-    },
-  ];
-
-  const components = [
-    {
-      component: (
-        <div className="w-full">
-          <IncomePieChart />
-          <IncomeExpenseData variant="smena-one" />
-        </div>
-      ),
-      value: "smena-one",
-    },
-    {
-      component: (
-        <div className="w-full">
-          <ExpensePieChart />
-          <IncomeExpenseData variant="smena-two" />
-        </div>
-      ),
       value: "smena-two",
     },
   ];
@@ -108,13 +90,14 @@ const Home = () => {
           transition={{ duration: 0.3 }}
           className="w-full flex flex-col items-center gap-4"
         >
-          {components?.find((item) => item?.value === tab)?.component}
+          <IncomeExpenseChart type={tab} />
+          <IncomeExpenseData variant={tab} />
         </motion.div>
       </AnimatePresence>
 
       <div className="flex flex-col items-center gap-6 w-full">
         <h3 className="text-xl font-bold self-start">Xodimlar</h3>
-        <EmployeesData />
+        <EmployeesData variant={tab} />
       </div>
     </div>
   );
