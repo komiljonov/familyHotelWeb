@@ -51,7 +51,11 @@ const SelectDateRage: React.FC<Props> = ({
 
   const handleConfirm = () => {
     setOpen(false);
-    onSubmit(startDate, endDate);
+    if (startDate === endDate) {
+      onSubmit(startDate, "");
+    } else {
+      onSubmit(startDate, endDate);
+    }
   };
 
   const handleClose = () => {
@@ -87,7 +91,11 @@ const SelectDateRage: React.FC<Props> = ({
               />
             </div>
             <div className="flex justify-end">
-              <Button variant="contained" className="flex gap-2" onClick={handleConfirm}>
+              <Button
+                variant="contained"
+                className="flex gap-2"
+                onClick={handleConfirm}
+              >
                 <span>{isLoading ? "Saqlanmoqda..." : "Saqlash"}</span>
               </Button>
             </div>

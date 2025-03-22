@@ -51,19 +51,12 @@ const Home = () => {
       <div className="mx-auto flex justify-between gap-3 items-center w-full max-w-[450px]">
         {dates?.start_date && dates?.end_date ? (
           <h2 className="text-md font-bold text-center ">
-            Xodimlarning{" "}
-            {formatUzbekDate(dates?.start_date, false).toLocaleLowerCase()} dan{" "}
-            {formatUzbekDate(dates?.end_date, false)?.toLocaleLowerCase()} gacha
-            bo&lsquo;lgan vaqtdagi statistikasi
+            Xodimlarning {format(new Date(dates?.start_date), "dd.MM.yyyy")} -{" "}
+            {format(new Date(dates?.end_date), "dd.MM.yyyy")} dagi statistikasi
           </h2>
         ) : (
           <h2 className="text-md font-bold text-center">
-            Xodimlarning{" "}
-            {formatUzbekDate(
-              format(new Date(), "yyyy-MM-dd"),
-              false
-            ).toLocaleLowerCase()}{" "}
-            dagi statistikasi
+            Xodimlarning {format(new Date(), "dd.MM.yyyy")} dagi statistikasi
           </h2>
         )}
 
