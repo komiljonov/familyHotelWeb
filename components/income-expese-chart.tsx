@@ -74,7 +74,7 @@ const IncomeExpenseChart = ({ stats}: { stats: IStats}) => {
           ))}
         </Pie>
 
-        <Tooltip />
+        <Tooltip formatter={(value) => `${value.toLocaleString()} UZS`} />
       </PieChart>
       <div className="flex gap-3">
         {chartData?.map((item, index) => (

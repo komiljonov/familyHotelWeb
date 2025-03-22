@@ -3,7 +3,7 @@ import EmployeesData from "@/components/employee-data";
 import IncomeExpenseData from "@/components/income-expense-data";
 import SelectBranchs from "@/components/select-branch";
 import SelectDateRage from "@/components/select-date-range";
-import { formatUzbekDate } from "@/lib/functions";
+import { formatDate, formatUzbekDate } from "@/lib/functions";
 import { CalendarMonth, Close } from "@mui/icons-material";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
@@ -80,19 +80,18 @@ const Home = () => {
 
   return (
     <div className="w-full sm:hidden flex flex-col items-center gap-6 px-4 py-4 bg-white">
-      <div className="mx-auto flex justify-between gap-3 items-start min-h-[48px] w-full max-w-[450px]">
-        {dates?.start_date && dates?.end_date ? (
+      <div className="mx-auto flex justify-between gap-3 items-center w-full max-w-[450px]">
+        {dates?.start_date || dates?.end_date ? (
           <h2 className="text-md font-bold text-center ">
-            Xodimlarning {dates?.start_date} - {dates?.end_date} dagi
-            statistikasi
+           {formatDate(dates?.start_date)} {dates?.end_date && "-"}  { dates?.end_date && formatDate(dates?.end_date)}
           </h2>
         ) : (
           <h2 className="text-md font-bold text-center">
-            Xodimlarning {format(new Date(), "dd.MM.yyyy")} dagi statistikasi
+            {format(new Date(), "dd.MM.yyyy")} 
           </h2>
         )}
 
-        {dates?.start_date && dates?.end_date ? (
+        {dates?.start_date || dates?.end_date ? (
           <button
             onClick={() => setDates({ start_date: "", end_date: "" })}
             className="min-w-10 h-10 flex justify-center items-center rounded-md bg-[#EFF5FF] text-[#3774FA]"
