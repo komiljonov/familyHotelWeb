@@ -4,7 +4,7 @@ import IncomeExpenseData from "@/components/income-expense-data";
 import SelectBranchs from "@/components/select-branch";
 import SelectDateRage from "@/components/select-date-range";
 import { formatUzbekDate } from "@/lib/functions";
-import { CalendarMonth } from "@mui/icons-material";
+import { CalendarMonth, Close } from "@mui/icons-material";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,6 +14,8 @@ import { fetchStats } from "@/lib/actions/stats.actions";
 import { IStats } from "@/lib/types/stats.types";
 import { fetchTurns } from "@/lib/actions/turns.action";
 import { ITurns } from "@/lib/types/turn.types";
+import { fetchEmployees } from "@/lib/actions/employee.action";
+import { IEmployee } from "@/lib/types/employee.types";
 
 // Komponentlarni dinamik import qilish
 const IncomeExpenseChart = dynamic(
@@ -33,9 +35,22 @@ const Home = () => {
   const [tab, setTab] = useState<string>("");
   const [tabs, setTabs] = useState<ITurns[]>([]);
 
+  const filterData = {
+    turn: tab === "all" ? "" : tab,
+    filial: branchs.join(","),
+    start: dates?.start_date || "",
+    end: dates?.end_date || "",
+  }
+
   const { data: stats } = useQuery<IStats>({
-    queryKey: ["stats", tab],
-    queryFn: () => fetchStats(tab === "all" ? "" : tab),
+    queryKey: ["stats", Object.values(filterData)],
+    queryFn: () => fetchStats(filterData),
+    enabled: !!tab,
+  });
+
+  const { data: employees } = useQuery<IEmployee[]>({
+    queryKey: ["employees", Object.values(filterData)],
+    queryFn: () => fetchEmployees(filterData),
     enabled: !!tab,
   });
   
@@ -64,11 +79,11 @@ const Home = () => {
 
   return (
     <div className="w-full sm:hidden flex flex-col items-center gap-6 px-4 py-4">
-      <div className="mx-auto flex justify-between gap-3 items-center w-full max-w-[450px]">
+      <div className="mx-auto flex justify-between gap-3 items-start min-h-[48px] w-full max-w-[450px]">
         {dates?.start_date && dates?.end_date ? (
           <h2 className="text-md font-bold text-center ">
-            Xodimlarning {format(new Date(dates?.start_date), "dd.MM.yyyy")} -{" "}
-            {format(new Date(dates?.end_date), "dd.MM.yyyy")} dagi statistikasi
+            Xodimlarning {dates?.start_date} -{" "}
+            {dates?.end_date} dagi statistikasi
           </h2>
         ) : (
           <h2 className="text-md font-bold text-center">
@@ -76,12 +91,20 @@ const Home = () => {
           </h2>
         )}
 
+        {dates?.start_date && dates?.end_date ? 
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => setDates({ start_date: "", end_date: "" })}
           className="min-w-10 h-10 flex justify-center items-center rounded-md bg-[#EFF5FF] text-[#3774FA]"
+        >
+          <Close style={{ fontSize: "24px" }} />
+        </button>
+        :<button
+        onClick={() => setOpen(true)}
+        className="min-w-10 h-10 flex justify-center items-center rounded-md bg-[#EFF5FF] text-[#3774FA]"
         >
           <CalendarMonth style={{ fontSize: "24px" }} />
         </button>
+        }
       </div>
 
       <SelectBranchs selectedValues={branchs} setSelectedValues={setBranchs} />
@@ -106,7 +129,7 @@ const Home = () => {
           <IncomeExpenseData stats={stats as IStats} />
           <div className="flex flex-col items-center gap-6 w-full">
             <h3 className="text-xl font-bold self-start">Xodimlar</h3>
-            <EmployeesData variant={tab} />
+            <EmployeesData employees={employees as IEmployee[]} />
           </div>
         </motion.div>
       </AnimatePresence>

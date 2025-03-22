@@ -1,7 +1,7 @@
 import { $api } from "../api/api";
 import { IEmployeeFilter } from "../types/employee.types";
 
-export const fetchStats = async (filters: IEmployeeFilter) => {
+export const fetchEmployees = async (filters: IEmployeeFilter) => {
   const params = new URLSearchParams();
 
   Object.entries(filters).forEach(([key, value]) => {
@@ -10,6 +10,6 @@ export const fetchStats = async (filters: IEmployeeFilter) => {
     }
   });
 
-  const response = await $api.get(`/statistics?${params.toString()}`);
+  const response = await $api.get(`/statistics/pe?${params.toString()}`);
   return response.data;
 };

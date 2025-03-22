@@ -46,8 +46,8 @@ const SelectDateRage: React.FC<Props> = ({
     }
   }, [open]);
 
-  const startDate = format(range?.[0]?.startDate as Date, "yyyy-MM-dd");
-  const endDate = format(range?.[0]?.endDate as Date, "yyyy-MM-dd");
+  const startDate = format(range?.[0]?.startDate as Date, "dd-MM-yyyy");
+  const endDate = format(range?.[0]?.endDate as Date, "dd-MM-yyyy");
 
   const handleConfirm = () => {
     setOpen(false);

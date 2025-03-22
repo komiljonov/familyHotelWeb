@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import EmployeeCard from "./employee-card";
+import { IEmployee } from "@/lib/types/employee.types";
 
 const employees = [
   {
@@ -25,14 +26,12 @@ const employees = [
   },
 ];
 
-export default function EmployeesData({ variant }: { variant: string }) {
-  const data = variant
-    ? employees.filter((item) => item.variant === variant)
-    : employees;
+export default function EmployeesData({employees}: {employees: IEmployee[]}) {
+ 
   return (
     <div className="flex flex-col gap-3 w-full">
-      {data?.map((employee, index) => (
-        <EmployeeCard key={index} {...employee} />
+      {employees?.map((employee, index) => (
+        <EmployeeCard key={index} employee={employee as IEmployee} />
       ))}
     </div>
   );
