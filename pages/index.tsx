@@ -38,7 +38,7 @@ const Home=() => {
 
   const filterData={
     turn: tab==="all"? "":tab,
-    filial: branchs.join(","),
+    filials: branchs.join(","),
     start: dates?.start_date||"",
     end: dates?.end_date||"",
   };

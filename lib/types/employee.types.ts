@@ -9,8 +9,8 @@ export interface IEmployee {
 
 export interface IEmployeeFilter {
   turn: string;
-  filial: string;
+  filials: string;
   start: string;
   end: string;
-  [key: string]: string | number | undefined | boolean;
+  [key: string]: string|number|undefined|boolean;
 }
