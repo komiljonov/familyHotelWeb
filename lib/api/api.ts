@@ -1,8 +1,8 @@
 import axios, { CreateAxiosDefaults } from "axios";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_URL=process.env.NEXT_PUBLIC_API_URL;
 
-const options: CreateAxiosDefaults = {
+const options: CreateAxiosDefaults={
   baseURL: API_URL,
   withCredentials: true,
   headers: {
@@ -10,15 +10,15 @@ const options: CreateAxiosDefaults = {
   },
 };
 
-const $api = axios.create(options);
-const $apiAuth = axios.create({
+const $api=axios.create(options);
+const $apiAuth=axios.create({
   baseURL: API_URL,
 });
 
 $api.interceptors.request.use((config) => {
-  const access_token = localStorage.getItem("accessToken");
-  if (config.headers && access_token) {
-    config.headers.Authorization = `Bearer ${access_token}`;
+  const access_token=localStorage.getItem("accessToken");
+  if (config.headers&&access_token) {
+    config.headers.Authorization=`Bearer ${access_token}`;
   }
   return config;
 });
@@ -26,16 +26,16 @@ $api.interceptors.request.use((config) => {
 $api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest=error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response.status===401&&!originalRequest._retry) {
+      originalRequest._retry=true;
       // Get the refresh token
-      const refreshToken = localStorage.getItem("refreshToken");
+      const refreshToken=localStorage.getItem("refreshToken");
 
       try {
         // Request a new access token
-        const { data } = await $apiAuth.post(`/auth/refresh`, {
+        const { data }=await $apiAuth.post(`/auth/refresh`, {
           refresh: refreshToken,
         });
         // Store the new access token
@@ -43,7 +43,7 @@ $api.interceptors.response.use(
         localStorage.setItem("refresh_token", data.refresh);
 
         // Update the Authorization header
-        $api.defaults.headers.common["Authorization"] = `Bearer ${data.access}`;
+        $api.defaults.headers.common["Authorization"]=`Bearer ${data.access}`;
 
         // Retry the original request with the new token
         return $api(originalRequest);
