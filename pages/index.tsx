@@ -19,50 +19,76 @@ import { IEmployee } from "@/lib/types/employee.types";
 import ErrorPage from "@/components/error-page";
 
 // Komponentlarni dinamik import qilish
-const IncomeExpenseChart=dynamic(
+const IncomeExpenseChart = dynamic(
   () => import("@/components/income-expese-chart"),
   {
     ssr: false, // Faqat clientda yuklanadi
   }
 );
 
-const Home=() => {
-  const [branchs, setBranchs]=useState<string[]>([]);
-  const [open, setOpen]=useState<boolean>(false);
-  const [dates, setDates]=useState<{
+const Home = () => {
+  const [branchs, setBranchs] = useState<string[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [dates, setDates] = useState<{
     start_date: string;
     end_date: string;
   }>();
-  const [tab, setTab]=useState<string>("");
-  const [tabs, setTabs]=useState<ITurns[]>([]);
+  const [tab, setTab] = useState<string>("");
+  const [tabs, setTabs] = useState<ITurns[]>([]);
 
-  const filterData={
-    turn: tab==="all"? "":tab,
+  const today = format(new Date(), "dd-MM-yyyy");
+
+  useEffect(() => {
+    const storedTab = localStorage.getItem("selected_tab");
+    const start_date = localStorage.getItem("start_date");
+    const end_date = localStorage.getItem("end_date");
+
+    if (storedTab) setTab(storedTab);
+    if (start_date && end_date) {
+      setDates({ start_date, end_date });
+    }
+  }, []);
+
+  // Save tab selection in localStorage
+  // useEffect(() => {
+  //   if (tab) localStorage.setItem("selected_tab", tab);
+  // }, [tab]);
+
+  // Save date selection in localStorage
+  useEffect(() => {
+    if (dates?.start_date && dates.end_date) {
+      localStorage.setItem("start_date", dates.start_date);
+      localStorage.setItem("end_date", dates.end_date);
+    }
+  }, [dates]);
+
+  const filterData = {
+    turn: tab === "all" ? "" : tab,
     filials: branchs.join(","),
-    start: dates?.start_date||"",
-    end: dates?.end_date||"",
+    start: dates?.start_date || today,
+    end: dates?.end_date || "",
   };
 
-  const { data: stats, isError: statsError }=useQuery<IStats>({
+  const { data: stats, isError: statsError } = useQuery<IStats>({
     queryKey: ["stats", Object.values(filterData)],
     queryFn: () => fetchStats(filterData),
     enabled: !!tab,
   });
 
-  const { data: employees, isError: employeesError }=useQuery<IEmployee[]>({
+  const { data: employees, isError: employeesError } = useQuery<IEmployee[]>({
     queryKey: ["employees", Object.values(filterData)],
     queryFn: () => fetchEmployees(filterData),
     enabled: !!tab,
   });
 
-  const { data: turns }=useQuery<ITurns[]>({
+  const { data: turns } = useQuery<ITurns[]>({
     queryKey: ["turns"],
     queryFn: fetchTurns,
   });
 
   useEffect(() => {
     if (turns) {
-      const tabs=[
+      const tabs = [
         {
           name: "Jami",
           id: "all",
@@ -74,43 +100,44 @@ const Home=() => {
     }
   }, [turns]);
 
-  const handeSubmit=(start_date: string, end_date: string) => {
+  const handeSubmit = (start_date: string, end_date: string) => {
     setDates({ start_date, end_date });
   };
 
   return (
     <div className="w-full flex flex-col items-center gap-6 px-4 py-4 bg-white">
       <div className="mx-auto flex justify-between gap-3 items-center w-full max-w-[450px]">
-        {dates?.start_date||dates?.end_date? (
+        {dates?.start_date || dates?.end_date ? (
           <h2 className="text-md font-bold text-center ">
-            {formatDate(dates?.start_date)} {dates?.end_date&&"-"}  {dates?.end_date&&formatDate(dates?.end_date)}
+            {formatDate(dates?.start_date)} {dates?.end_date && "-"}{" "}
+            {dates?.end_date && formatDate(dates?.end_date)}
           </h2>
-        ):(
+        ) : (
           <h2 className="text-md font-bold text-center">
             {format(new Date(), "dd.MM.yyyy")}
           </h2>
         )}
 
-        {dates?.start_date||dates?.end_date? (
+        {/* {dates?.start_date || dates?.end_date ? (
           <button
             onClick={() => setDates({ start_date: "", end_date: "" })}
             className="min-w-10 h-10 flex justify-center items-center rounded-md bg-[#EFF5FF] text-[#3774FA]"
           >
             <Close style={{ fontSize: "24px" }} />
           </button>
-        ):(
+        ) : (
+        )} */}
           <button
             onClick={() => setOpen(true)}
             className="min-w-10 h-10 flex justify-center items-center rounded-md bg-[#EFF5FF] text-[#3774FA]"
           >
             <CalendarMonth style={{ fontSize: "24px" }} />
           </button>
-        )}
       </div>
 
       <SelectBranchs selectedValues={branchs} setSelectedValues={setBranchs} />
 
-      <SelectDateRage open={open} setOpen={setOpen} onSubmit={handeSubmit} />
+      <SelectDateRage setDefault open={open} setOpen={setOpen} onSubmit={handeSubmit} />
 
       <ShiftTabs tabs={tabs} activeTab={tab} setActiveTab={setTab} />
 
@@ -124,16 +151,24 @@ const Home=() => {
           className="w-full flex flex-col items-center gap-4"
         >
           <div className="h-[264px]">
-            {statsError? (
+            {statsError ? (
               <ErrorPage error="Statistikani yuklashda xatolik yuz berdi!" />
-            ):(
+            ) : (
               <IncomeExpenseChart stats={stats as IStats} />
             )}
           </div>
-          {statsError? <ErrorPage error="Statistikani yuklashda xatolik yuz berdi!" />:<IncomeExpenseData stats={stats as IStats} />}
+          {statsError ? (
+            <ErrorPage error="Statistikani yuklashda xatolik yuz berdi!" />
+          ) : (
+            <IncomeExpenseData stats={stats as IStats} />
+          )}
           <div className="flex flex-col items-center gap-6 w-full">
             <h3 className="text-xl font-bold self-start">Xodimlar</h3>
-            {employeesError? <ErrorPage error="Xodimlarni yuklashda xatolik yuz berdi!" />:<EmployeesData employees={employees as IEmployee[]} />}
+            {employeesError ? (
+              <ErrorPage error="Xodimlarni yuklashda xatolik yuz berdi!" />
+            ) : (
+              <EmployeesData employees={employees as IEmployee[]} />
+            )}
           </div>
         </motion.div>
       </AnimatePresence>

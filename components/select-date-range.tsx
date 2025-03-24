@@ -12,6 +12,7 @@ interface Props {
   setOpen: Dispatch<SetStateAction<boolean>>;
   isLoading?: boolean;
   onSubmit: (start_date: string, end_date: string) => void;
+  setDefault?: boolean
 }
 
 const getFirstDateOfCurrentMonth = () => {
@@ -21,6 +22,7 @@ const getFirstDateOfCurrentMonth = () => {
 };
 
 const SelectDateRage: React.FC<Props> = ({
+  setDefault,
   open,
   setOpen,
   onSubmit,
@@ -46,8 +48,14 @@ const SelectDateRage: React.FC<Props> = ({
     }
   }, [open]);
 
+  
   const startDate = format(range?.[0]?.startDate as Date, "dd-MM-yyyy");
   const endDate = format(range?.[0]?.endDate as Date, "dd-MM-yyyy");
+  useEffect(() => {
+    if (setDefault && open) {
+      onSubmit(startDate, endDate);
+    }
+  }, [open, setDefault, startDate, endDate, onSubmit]);
 
   const handleConfirm = () => {
     setOpen(false);
