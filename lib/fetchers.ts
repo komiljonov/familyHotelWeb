@@ -1,7 +1,7 @@
 import { $api } from "./api/api";
 
-const fetchFilials = async () => {
-    const { data } = await $api.get("filials");
+const fetchFilials=async () => {
+    const { data }=await $api.get("filials/");
     return data;
 };
 
