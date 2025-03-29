@@ -3,6 +3,7 @@ import { IBranch } from "@/lib/types/branch.types";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect,  useRef, useState } from "react";
 
 export default function SelectBranchs({
@@ -17,9 +18,12 @@ export default function SelectBranchs({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  const user_id = (useRouter()?.query?.user_id as string) || "";
+
   const { data: branchs } = useQuery<IBranch[]>({
-    queryKey: ["branchs"],
-    queryFn: fetchBranchs,
+    queryKey: ["branchs", user_id],
+    queryFn:()=> fetchBranchs(user_id),
+    enabled: !!user_id,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
