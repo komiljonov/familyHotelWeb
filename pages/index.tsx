@@ -17,6 +17,7 @@ import { ITurns } from "@/lib/types/turn.types";
 import { fetchEmployees } from "@/lib/actions/employee.action";
 import { IEmployee } from "@/lib/types/employee.types";
 import ErrorPage from "@/components/error-page";
+import { useRouter } from "next/router";
 
 // Komponentlarni dinamik import qilish
 const IncomeExpenseChart = dynamic(
@@ -37,6 +38,8 @@ const Home = () => {
   const [tabs, setTabs] = useState<ITurns[]>([]);
 
   const today = format(new Date(), "dd-MM-yyyy");
+
+  const user_id = (useRouter()?.query?.user_id as string) || "";
 
   useEffect(() => {
     const storedTab = localStorage.getItem("selected_tab");
@@ -67,10 +70,11 @@ const Home = () => {
     filials: branchs.join(","),
     start: dates?.start_date || today,
     end: dates?.end_date || "",
+    user_id
   };
 
   const { data: stats, isError: statsError } = useQuery<IStats>({
-    queryKey: ["stats", Object.values(filterData)],
+    queryKey: ["stats", Object.values(filterData),],
     queryFn: () => fetchStats(filterData),
     enabled: !!tab,
   });
@@ -127,17 +131,22 @@ const Home = () => {
           </button>
         ) : (
         )} */}
-          <button
-            onClick={() => setOpen(true)}
-            className="min-w-10 h-10 flex justify-center items-center rounded-md bg-[#EFF5FF] text-[#3774FA]"
-          >
-            <CalendarMonth style={{ fontSize: "24px" }} />
-          </button>
+        <button
+          onClick={() => setOpen(true)}
+          className="min-w-10 h-10 flex justify-center items-center rounded-md bg-[#EFF5FF] text-[#3774FA]"
+        >
+          <CalendarMonth style={{ fontSize: "24px" }} />
+        </button>
       </div>
 
       <SelectBranchs selectedValues={branchs} setSelectedValues={setBranchs} />
 
-      <SelectDateRage setDefault open={open} setOpen={setOpen} onSubmit={handeSubmit} />
+      <SelectDateRage
+        setDefault
+        open={open}
+        setOpen={setOpen}
+        onSubmit={handeSubmit}
+      />
 
       <ShiftTabs tabs={tabs} activeTab={tab} setActiveTab={setTab} />
 
