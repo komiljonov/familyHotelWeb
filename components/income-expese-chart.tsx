@@ -45,7 +45,7 @@ const IncomeExpenseChart = ({ stats}: { stats: IStats}) => {
           fontSize="20"
           fontWeight="bold"
         >
-          {item?.total?.toLocaleString()} 
+          {(item?.income_amount - item?.expense_amount)?.toLocaleString()} 
         </text>
       </>
     );

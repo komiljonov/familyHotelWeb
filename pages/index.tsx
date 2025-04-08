@@ -52,12 +52,6 @@ const Home = () => {
     }
   }, []);
 
-  // Save tab selection in localStorage
-  // useEffect(() => {
-  //   if (tab) localStorage.setItem("selected_tab", tab);
-  // }, [tab]);
-
-  // Save date selection in localStorage
   useEffect(() => {
     if (dates?.start_date && dates.end_date) {
       localStorage.setItem("start_date", dates.start_date);
